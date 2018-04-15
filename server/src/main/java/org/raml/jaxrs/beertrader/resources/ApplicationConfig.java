@@ -27,7 +27,7 @@ public class ApplicationConfig extends ResourceConfig {
 
     @Inject
     public ApplicationConfig(ServiceLocator serviceLocator) {
-        packages("org.raml.jaxrs.beertrader.resources");
+        packages("org.raml.jaxrs.beertrader.resources.impl");
 
         SLF4JBridgeHandler.removeHandlersForRootLogger();
         SLF4JBridgeHandler.install();
