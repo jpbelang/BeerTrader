@@ -1,0 +1,14 @@
+#%RAML 1.0
+title: The BeerTrader api
+description: This is the API for the world famous Beer Trader API
+version: v1
+baseUri:
+  value: http://www.beertrader.com/services/{version}
+protocols: [  HTTP, HTTPS ]
+mediaType: [ application/json ]
+/users:
+  get:
+    responses:
+      200:
+        body:
+          application/json: string
