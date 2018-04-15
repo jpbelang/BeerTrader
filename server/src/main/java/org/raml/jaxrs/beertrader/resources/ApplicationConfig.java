@@ -1,5 +1,6 @@
 package org.raml.jaxrs.beertrader.resources;
 
+import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.raml.jaxrs.beertrader.guice.GuiceModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -9,6 +10,7 @@ import org.glassfish.jersey.server.spi.Container;
 import org.glassfish.jersey.server.spi.ContainerLifecycleListener;
 import org.jvnet.hk2.guice.bridge.api.GuiceBridge;
 import org.jvnet.hk2.guice.bridge.api.GuiceIntoHK2Bridge;
+import org.raml.jaxrs.beertrader.resources.impl.UsersImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.bridge.SLF4JBridgeHandler;
@@ -16,6 +18,8 @@ import org.glassfish.jersey.media.multipart.MultiPartFeature;
 
 import javax.inject.Inject;
 import javax.ws.rs.ApplicationPath;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Jean-Philippe Belanger on 12/1/17.
@@ -27,7 +31,8 @@ public class ApplicationConfig extends ResourceConfig {
 
     @Inject
     public ApplicationConfig(ServiceLocator serviceLocator) {
-        packages("org.raml.jaxrs.beertrader.resources.impl");
+
+        registerClasses(UsersImpl.class);
 
         SLF4JBridgeHandler.removeHandlersForRootLogger();
         SLF4JBridgeHandler.install();
@@ -41,5 +46,7 @@ public class ApplicationConfig extends ResourceConfig {
 
         logger.debug("'{}' initialized", ApplicationConfig.this.getClass().getName());
     }
+
+
 }
 
