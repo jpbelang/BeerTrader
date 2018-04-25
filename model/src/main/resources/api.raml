@@ -6,9 +6,50 @@ baseUri:
   value: http://www.beertrader.com/services/{version}
 protocols: [  HTTP, HTTPS ]
 mediaType: [ application/json ]
+types:
+  BeerType:
+    enum: [ALE, STOUT, LAGER, PORTER, MALTS, OTHER]
+  BeerStype:
+    enum:
+      - AMBER
+      - BLOND
+      - BROWN
+      - CREAM
+      - DARK
+      - FRUIT
+      - GOLDEN
+      - HONEY
+      - IPA
+      - LIGHT
+      - LIME
+      - PALE
+      - PILSNER
+      - STRONG
+      - RED
+      - PILSNER
+      - WHEAT
+      - OTHER
+  User:
+    properties:
+      id: string
+      name: string
+      email: string
+      address: Address
+  Beer:
+    properties:
+      name: string
+      type: string
+  Address:
+    properties:
+      line1: string
+      line2: string
+      line3: string
+      city: string
+      province: string
+      country: string
 /users:
   get:
     responses:
       200:
         body:
-          application/json: string
+          application/json: User

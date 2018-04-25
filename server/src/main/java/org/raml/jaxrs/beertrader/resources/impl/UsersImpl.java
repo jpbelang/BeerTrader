@@ -10,6 +10,6 @@ public class UsersImpl implements Users {
     @Override
     public GetUsersResponse getUsers() {
 
-        return GetUsersResponse.respond200WithApplicationJson("Hello!");
+        return GetUsersResponse.respond200WithApplicationJson(null);
     }
 }
