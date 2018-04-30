@@ -36,12 +36,12 @@ public class UsersImpl implements Users {
     }
 
     @Override
-    public void putUsersByUserId(String userId, User entity) {
-
+    public DeleteUsersByUserIdResponse deleteUsersByUserId(String userId) {
+        return null;
     }
 
     @Override
-    public void deleteUsersByUserId(String userId) {
-
+    public PutUsersByUserIdResponse putUsersByUserId(String userId, User entity) {
+        return null;
     }
 }

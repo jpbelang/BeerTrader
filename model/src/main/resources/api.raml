@@ -61,26 +61,83 @@ types:
     body:
       application/json: User
     responses:
-      200:
+      201:
         body:
-          application/json: string
+          application/json: User
   /{userId}:
-    # fixme:  uriParameters shouldn't be mandatory
-#    uriParameters:
-#      userId: string
     get:
       responses:
         200:
           body:
-            application/json: User[]
+            application/json: User
+        404:
+    delete:
+      responses:
+        200:
+        404:
     put:
       body:
         application/json: User
-    delete:
+      responses:
+        200:
+        404:
 /users/{userId}/inventory:
   get:
     responses:
       200:
         body:
           application/json: InventoryEntry[]
-
+  post:
+    body:
+      application/json: InventoryEntry
+    responses:
+      201:
+        body:
+          application/json: InventoryEntry
+  /{entryId}:
+    get:
+      responses:
+        200:
+          body:
+            application/json: InventoryEntry
+        404:
+    delete:
+      responses:
+        200:
+        404:
+    put:
+      body:
+        application/json: InventoryEntry
+      responses:
+        200:
+        404:
+/users/{userId}/beers:
+  get:
+    responses:
+      200:
+        body:
+          application/json: Beer[]
+  post:
+    body:
+      application/json: Beer
+    responses:
+      201:
+        body:
+          application/json: Beer
+  /{entryId}:
+    get:
+      responses:
+        200:
+          body:
+            application/json: Beer
+        404:
+    delete:
+      responses:
+        200:
+        404:
+    put:
+      body:
+        application/json: Beer
+      responses:
+        200:
+        404:
