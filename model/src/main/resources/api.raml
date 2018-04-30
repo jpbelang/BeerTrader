@@ -34,22 +34,53 @@ types:
       id: string
       name: string
       email: string
-      address: Address
   Beer:
     properties:
+      id: string
       name: string
-      type: string
-  Address:
+      type: BeerType
+  InventoryEntry:
     properties:
-      line1: string
-      line2: string
-      line3: string
-      city: string
-      province: string
-      country: string
+      id: string
+      beerReference: string
+      count: integer
+      availableCount: integer
+  Trade:
+    properties:
+      from: string
+      to: string
+      beer: string
+      count: integer
 /users:
   get:
     responses:
       200:
         body:
-          application/json: User
+          application/json: User[]
+  post:
+    body:
+      application/json: User
+    responses:
+      200:
+        body:
+          application/json: string
+  /{userId}:
+    # fixme:  uriParameters shouldn't be mandatory
+#    uriParameters:
+#      userId: string
+    get:
+      responses:
+        200:
+          body:
+            application/json: User[]
+    put:
+      body:
+        application/json: User
+    delete:
+/users/{userId}/inventory:
+  get:
+    responses:
+      200:
+        body:
+          application/json: InventoryEntry[]
+

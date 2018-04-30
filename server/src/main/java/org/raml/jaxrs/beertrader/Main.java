@@ -19,6 +19,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
+
         Server server = new Server(9998);
         ServletContextHandler sch = new ServletContextHandler(server, "/");
         sch.addServlet(org.eclipse.jetty.servlet.DefaultServlet.class,"/");
