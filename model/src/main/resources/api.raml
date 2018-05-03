@@ -51,93 +51,48 @@ types:
       to: string
       beer: string
       count: integer
+resourceTypes:
+  collection:
+    get:
+      responses:
+        200:
+          body:
+            application/json: <<targetType>>[]
+    post:
+      body:
+        application/json: <<targetType>>
+      responses:
+        201:
+          body:
+            application/json: <<targetType>>
+  item:
+    get:
+      responses:
+        200:
+          body:
+            application/json: <<itemType>>
+        404:
+    delete:
+      responses:
+        200:
+        404:
+    put:
+      body:
+        application/json: <<itemType>>
+      responses:
+        200:
+        404:
 /users:
-  get:
-    responses:
-      200:
-        body:
-          application/json: User[]
-  post:
-    body:
-      application/json: User
-    responses:
-      201:
-        body:
-          application/json: User
+  type: { collection: { targetType: User } }
   /{userId}:
-    get:
-      responses:
-        200:
-          body:
-            application/json: User
-        404:
-    delete:
-      responses:
-        200:
-        404:
-    put:
-      body:
-        application/json: User
-      responses:
-        200:
-        404:
+    type: { item: { itemType: User } }
+
 /users/{userId}/inventory:
-  get:
-    responses:
-      200:
-        body:
-          application/json: InventoryEntry[]
-  post:
-    body:
-      application/json: InventoryEntry
-    responses:
-      201:
-        body:
-          application/json: InventoryEntry
+  type: { collection: { targetType: InventoryEntry } }
   /{entryId}:
-    get:
-      responses:
-        200:
-          body:
-            application/json: InventoryEntry
-        404:
-    delete:
-      responses:
-        200:
-        404:
-    put:
-      body:
-        application/json: InventoryEntry
-      responses:
-        200:
-        404:
+    type: { item: { itemType: InventoryEntry } }
+
 /users/{userId}/beers:
-  get:
-    responses:
-      200:
-        body:
-          application/json: Beer[]
-  post:
-    body:
-      application/json: Beer
-    responses:
-      201:
-        body:
-          application/json: Beer
+  type: { collection: { targetType: Beer } }
   /{entryId}:
-    get:
-      responses:
-        200:
-          body:
-            application/json: Beer
-        404:
-    delete:
-      responses:
-        200:
-        404:
-    put:
-      body:
-        application/json: Beer
-      responses:
-        200:
-        404:
+    type: { item: { itemType: Beer } }
