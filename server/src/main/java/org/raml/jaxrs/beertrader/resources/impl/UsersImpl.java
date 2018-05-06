@@ -7,6 +7,7 @@ import org.raml.jaxrs.beertrader.resources.Users;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,7 +25,7 @@ public class UsersImpl implements Users {
     public GetUsersResponse getUsers() {
 
         List<UserObject> dbUsers = context.createQuery("from UserObject ", UserObject.class).getResultList();
-        List<User> users = dbUsers.stream().map(UsersImpl::userToUserObject).collect(Collectors.toList());
+        List<User> users = dbUsers.stream().map(UsersImpl::userObjectToUser).collect(Collectors.toList());
 
         return GetUsersResponse.respond200WithApplicationJson(users);
     }
@@ -33,7 +34,7 @@ public class UsersImpl implements Users {
     @Override
     public PostUsersResponse postUsers(User entity) {
 
-        UserObject uo = userToUserObject(entity);
+        UserObject uo = userToUserObject(entity, new UserObject());
         context.persist(uo);
 
         return PostUsersResponse.respond201WithApplicationJson(entity);
@@ -41,20 +42,43 @@ public class UsersImpl implements Users {
 
     @Override
     public GetUsersByUserIdResponse getUsersByUserId(String userId) {
-        return GetUsersByUserIdResponse.respond200WithApplicationJson();
+
+        try {
+            UserObject dbUser = context.createQuery("from UserObject user where user.id = :id", UserObject.class).setParameter("id", userId).getSingleResult();
+            return GetUsersByUserIdResponse.respond200WithApplicationJson(userObjectToUser(dbUser));
+        } catch (NoResultException e) {
+
+            return GetUsersByUserIdResponse.respond404();
+        }
     }
 
     @Override
     public DeleteUsersByUserIdResponse deleteUsersByUserId(String userId) {
-        return null;
+
+        try {
+            UserObject dbUser = context.createQuery("from UserObject user where user.id = :id", UserObject.class).setParameter("id", userId).getSingleResult();
+            context.remove(dbUser);
+            return DeleteUsersByUserIdResponse.respond200();
+        } catch (NoResultException e) {
+
+            return DeleteUsersByUserIdResponse.respond404();
+        }
     }
 
     @Override
     public PutUsersByUserIdResponse putUsersByUserId(String userId, User entity) {
-        return null;
+        try {
+            UserObject dbUser = context.createQuery("from UserObject user where user.id = :id", UserObject.class).setParameter("id", userId).getSingleResult();
+            dbUser = userToUserObject(entity, dbUser);
+            context.persist(dbUser);
+            return PutUsersByUserIdResponse.respond200();
+        } catch (NoResultException e) {
+
+            return PutUsersByUserIdResponse.respond404();
+        }
     }
 
-    private static  User userToUserObject(UserObject db) {
+    private static  User userObjectToUser(UserObject db) {
         User user = new UserImpl();
         user.setEmail(db.getEmail());
         user.setName(db.getName());
@@ -63,9 +87,8 @@ public class UsersImpl implements Users {
         return user;
     }
 
-    private static UserObject userToUserObject(User restUser) {
+    private static UserObject userToUserObject(User restUser, UserObject uo) {
 
-        UserObject uo = new UserObject();
         uo.setEmail(restUser.getEmail());
         uo.setName(restUser.getName());
 
