@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * Created. There, you have it.
  */
-public class TradeObject extends PersistentObject implements Trade {
+public class TradeObject extends PersistentObject {
 
     @ManyToOne
     private UserObject fromUser;
@@ -23,52 +23,34 @@ public class TradeObject extends PersistentObject implements Trade {
     @Basic
     private int count;
 
-    @Override
-    public Map<String, Object> getAdditionalProperties() {
-        return null;
+    public UserObject getFromUser() {
+        return fromUser;
     }
 
-    @Override
-    public void setAdditionalProperties(String key, Object value) {
-
+    public void setFromUser(UserObject fromUser) {
+        this.fromUser = fromUser;
     }
 
-    @Override
-    public String getFrom() {
-        return fromUser.getId();
+    public UserObject getToUser() {
+        return toUser;
     }
 
-    @Override
-    public void setFrom(String from) {
-
+    public void setToUser(UserObject toUser) {
+        this.toUser = toUser;
     }
 
-    @Override
-    public String getTo() {
-        return toUser.getId();
+    public BeerObject getTradedBeer() {
+        return tradedBeer;
     }
 
-    @Override
-    public void setTo(String to) {
-
+    public void setTradedBeer(BeerObject tradedBeer) {
+        this.tradedBeer = tradedBeer;
     }
 
-    @Override
-    public String getBeer() {
-        return tradedBeer.getId();
-    }
-
-    @Override
-    public void setBeer(String beer) {
-
-    }
-
-    @Override
     public int getCount() {
         return count;
     }
 
-    @Override
     public void setCount(int count) {
 
         this.count = count;

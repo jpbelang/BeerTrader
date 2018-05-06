@@ -96,3 +96,8 @@ resourceTypes:
   type: { collection: { targetType: Beer } }
   /{entryId}:
     type: { item: { itemType: Beer } }
+
+/users/{userId}/trades:
+  type: { collection: { targetType: Trade } }
+  /{tradeId}:
+    type: { item: { itemType: Trade } }

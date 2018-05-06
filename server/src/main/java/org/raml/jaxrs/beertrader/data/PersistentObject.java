@@ -22,6 +22,10 @@ public class PersistentObject {
         return Objects.equals(id, that.id);
     }
 
+    public String getId() {
+        return id;
+    }
+
     @Override
     public int hashCode() {
 
