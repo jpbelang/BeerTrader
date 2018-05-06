@@ -11,6 +11,7 @@ import org.glassfish.jersey.server.spi.ContainerLifecycleListener;
 import org.jvnet.hk2.guice.bridge.api.GuiceBridge;
 import org.jvnet.hk2.guice.bridge.api.GuiceIntoHK2Bridge;
 import org.raml.jaxrs.beertrader.model.BeerImpl;
+import org.raml.jaxrs.beertrader.resources.impl.InventoryImpl;
 import org.raml.jaxrs.beertrader.resources.impl.UsersImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,7 @@ public class ApplicationConfig extends ResourceConfig {
 
         registerClasses(UsersImpl.class);
         registerClasses(BeerImpl.class);
+        registerClasses(InventoryImpl.class);
 
         SLF4JBridgeHandler.removeHandlersForRootLogger();
         SLF4JBridgeHandler.install();

@@ -81,6 +81,7 @@ public class BeersImpl implements UsersUserIdBeers {
     private static Beer beerObjectToBeer(BeerObject db) {
         Beer beer = new BeerImpl();
         beer.setName(db.getName());
+        beer.setDescription(db.getDescription());
         beer.setType(db.getType());
 
         return beer;
@@ -90,7 +91,7 @@ public class BeersImpl implements UsersUserIdBeers {
 
         beerObject.setName(restBeer.getName());
         beerObject.setType(restBeer.getType());
-
+        beerObject.setDescription(restBeer.getDescription());
         return beerObject;
     }
 

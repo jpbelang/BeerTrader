@@ -16,6 +16,7 @@ public class BeerObject extends PersistentObject {
     @Basic
     private BeerType type;
     private String name;
+    private String description;
 
 
     public String getName() {
@@ -34,5 +35,13 @@ public class BeerObject extends PersistentObject {
     public void setType(BeerType type) {
 
         this.type = type;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
