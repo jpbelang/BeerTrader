@@ -35,6 +35,7 @@ public class BeersImpl implements UsersUserIdBeers {
     }
 
     @Override
+    @Transactional
     public PostUsersBeersByUserIdResponse postUsersBeersByUserId(String userId, Beer entity) {
         BeerObject beerObject = beerToBeerObject(entity, new BeerObject());
         context.persist(beerObject);
@@ -43,6 +44,7 @@ public class BeersImpl implements UsersUserIdBeers {
     }
 
     @Override
+    @Transactional
     public GetUsersBeersByUserIdAndEntryIdResponse getUsersBeersByUserIdAndEntryId(String userId, String entryId) {
         try {
             BeerObject beerObject = context.createQuery("from BeerObject beer where beer.id = :id", BeerObject.class).setParameter("id", userId).getSingleResult();
@@ -54,6 +56,7 @@ public class BeersImpl implements UsersUserIdBeers {
     }
 
     @Override
+    @Transactional
     public DeleteUsersBeersByUserIdAndEntryIdResponse deleteUsersBeersByUserIdAndEntryId(String userId, String entryId) {
         try {
             BeerObject beerObject = context.createQuery("from BeerObject beer where beer.id = :id", BeerObject.class).setParameter("id", userId).getSingleResult();
@@ -66,6 +69,7 @@ public class BeersImpl implements UsersUserIdBeers {
     }
 
     @Override
+    @Transactional
     public PutUsersBeersByUserIdAndEntryIdResponse putUsersBeersByUserIdAndEntryId(String userId, String entryId, Beer entity) {
         try {
             BeerObject beerObject = context.createQuery("from BeerObject user where user.id = :id", BeerObject.class).setParameter("id", userId).getSingleResult();

@@ -24,6 +24,7 @@ public class InventoryImpl implements UsersUserIdInventory {
     private EntityManager context;
 
     @Override
+    @Transactional
     public GetUsersInventoryByUserIdResponse getUsersInventoryByUserId(String userId) {
 
         List<InventoryObject> inventoryObjects = context.createQuery("from  InventoryObject ", InventoryObject.class).getResultList();
@@ -33,6 +34,7 @@ public class InventoryImpl implements UsersUserIdInventory {
     }
 
     @Override
+    @Transactional
     public PostUsersInventoryByUserIdResponse postUsersInventoryByUserId(String userId, InventoryEntry entity) {
         InventoryObject inventoryObject = inventoryToInventoryObject(entity, new InventoryObject());
 
@@ -48,9 +50,10 @@ public class InventoryImpl implements UsersUserIdInventory {
     }
 
     @Override
+    @Transactional
     public GetUsersInventoryByUserIdAndEntryIdResponse getUsersInventoryByUserIdAndEntryId(String userId, String entryId) {
         try {
-            InventoryObject inventoryObject = context.createQuery("from InventoryObject beer where beer.id = :id", InventoryObject.class).setParameter("id", userId).getSingleResult();
+            InventoryObject inventoryObject = context.createQuery("from InventoryObject inventory where inventory.id = :id", InventoryObject.class).setParameter("id", userId).getSingleResult();
             return GetUsersInventoryByUserIdAndEntryIdResponse.respond200WithApplicationJson(inventoryObjectToInventory(inventoryObject));
         } catch (NoResultException e) {
 
@@ -59,6 +62,7 @@ public class InventoryImpl implements UsersUserIdInventory {
     }
 
     @Override
+    @Transactional
     public DeleteUsersInventoryByUserIdAndEntryIdResponse deleteUsersInventoryByUserIdAndEntryId(String userId, String entryId) {
         try {
             InventoryObject inventoryObject = context.createQuery("from InventoryObject beer where beer.id = :id", InventoryObject.class).setParameter("id", userId).getSingleResult();
@@ -71,6 +75,7 @@ public class InventoryImpl implements UsersUserIdInventory {
     }
 
     @Override
+    @Transactional
     public PutUsersInventoryByUserIdAndEntryIdResponse putUsersInventoryByUserIdAndEntryId(String userId, String entryId, InventoryEntry entity) {
         try {
             InventoryObject inventoryObject = context.createQuery("from InventoryObject user where user.id = :id", InventoryObject.class).setParameter("id", userId).getSingleResult();

@@ -32,6 +32,7 @@ public class UsersImpl implements Users {
 
 
     @Override
+    @Transactional
     public PostUsersResponse postUsers(User entity) {
 
         UserObject uo = userToUserObject(entity, new UserObject());
@@ -41,6 +42,7 @@ public class UsersImpl implements Users {
     }
 
     @Override
+    @Transactional
     public GetUsersByUserIdResponse getUsersByUserId(String userId) {
 
         try {
@@ -53,6 +55,7 @@ public class UsersImpl implements Users {
     }
 
     @Override
+    @Transactional
     public DeleteUsersByUserIdResponse deleteUsersByUserId(String userId) {
 
         try {
@@ -66,6 +69,7 @@ public class UsersImpl implements Users {
     }
 
     @Override
+    @Transactional
     public PutUsersByUserIdResponse putUsersByUserId(String userId, User entity) {
         try {
             UserObject dbUser = context.createQuery("from UserObject user where user.id = :id", UserObject.class).setParameter("id", userId).getSingleResult();
