@@ -7,6 +7,7 @@ import org.raml.jaxrs.beertrader.model.BeerImpl;
 import org.raml.jaxrs.beertrader.model.InventoryEntry;
 import org.raml.jaxrs.beertrader.model.InventoryEntryImpl;
 import org.raml.jaxrs.beertrader.resources.UsersUserIdInventory;
+import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -18,13 +19,13 @@ import java.util.stream.Collectors;
 /**
  * Created. There, you have it.
  */
+@Component
 public class InventoryImpl implements UsersUserIdInventory {
 
     @Inject
     private EntityManager context;
 
     @Override
-    @Transactional
     public GetUsersInventoryByUserIdResponse getUsersInventoryByUserId(String userId) {
 
         List<InventoryObject> inventoryObjects = context.createQuery("from  InventoryObject ", InventoryObject.class).getResultList();
@@ -34,7 +35,6 @@ public class InventoryImpl implements UsersUserIdInventory {
     }
 
     @Override
-    @Transactional
     public PostUsersInventoryByUserIdResponse postUsersInventoryByUserId(String userId, InventoryEntry entity) {
         InventoryObject inventoryObject = inventoryToInventoryObject(entity, new InventoryObject());
 
@@ -50,7 +50,6 @@ public class InventoryImpl implements UsersUserIdInventory {
     }
 
     @Override
-    @Transactional
     public GetUsersInventoryByUserIdAndEntryIdResponse getUsersInventoryByUserIdAndEntryId(String userId, String entryId) {
         try {
             InventoryObject inventoryObject = context.createQuery("from InventoryObject inventory where inventory.id = :id", InventoryObject.class).setParameter("id", userId).getSingleResult();
@@ -62,7 +61,6 @@ public class InventoryImpl implements UsersUserIdInventory {
     }
 
     @Override
-    @Transactional
     public DeleteUsersInventoryByUserIdAndEntryIdResponse deleteUsersInventoryByUserIdAndEntryId(String userId, String entryId) {
         try {
             InventoryObject inventoryObject = context.createQuery("from InventoryObject beer where beer.id = :id", InventoryObject.class).setParameter("id", userId).getSingleResult();
@@ -75,7 +73,6 @@ public class InventoryImpl implements UsersUserIdInventory {
     }
 
     @Override
-    @Transactional
     public PutUsersInventoryByUserIdAndEntryIdResponse putUsersInventoryByUserIdAndEntryId(String userId, String entryId, InventoryEntry entity) {
         try {
             InventoryObject inventoryObject = context.createQuery("from InventoryObject user where user.id = :id", InventoryObject.class).setParameter("id", userId).getSingleResult();

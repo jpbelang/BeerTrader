@@ -1,12 +1,12 @@
 package org.raml.jaxrs.beertrader.resources.impl;
 
-import com.google.inject.persist.Transactional;
 import org.raml.jaxrs.beertrader.data.BeerObject;
 import org.raml.jaxrs.beertrader.data.TradeObject;
 import org.raml.jaxrs.beertrader.model.Beer;
 import org.raml.jaxrs.beertrader.model.Trade;
 import org.raml.jaxrs.beertrader.model.TradeImpl;
 import org.raml.jaxrs.beertrader.resources.UsersUserIdTrades;
+import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 /**
  * Created. There, you have it.
  */
+@Component
 public class TradesImpl implements UsersUserIdTrades {
 
     @Inject
@@ -24,7 +25,6 @@ public class TradesImpl implements UsersUserIdTrades {
 
 
     @Override
-    @Transactional
     public GetUsersTradesByUserIdResponse getUsersTradesByUserId(String userId) {
         List<TradeObject> tradeObject = context.createQuery("from TradeObject", TradeObject.class).getResultList();
         List<Trade> beers = tradeObject.stream().map(TradesImpl::tradeObjectToTrade).collect(Collectors.toList());
@@ -33,7 +33,6 @@ public class TradesImpl implements UsersUserIdTrades {
     }
 
     @Override
-    @Transactional
     public PostUsersTradesByUserIdResponse postUsersTradesByUserId(String userId, Trade entity) {
         TradeObject tradeObject = tradeToTradeObject(entity, new TradeObject());
         context.persist(tradeObject);
@@ -42,7 +41,6 @@ public class TradesImpl implements UsersUserIdTrades {
     }
 
     @Override
-    @Transactional
     public GetUsersTradesByUserIdAndTradeIdResponse getUsersTradesByUserIdAndTradeId(String userId, String tradeId) {
         try {
             TradeObject tradeObject = context.createQuery("from TradeObject trade where trade.id = :id", TradeObject.class).setParameter("id", userId).getSingleResult();
@@ -54,7 +52,6 @@ public class TradesImpl implements UsersUserIdTrades {
     }
 
     @Override
-    @Transactional
     public DeleteUsersTradesByUserIdAndTradeIdResponse deleteUsersTradesByUserIdAndTradeId(String userId, String tradeId) {
         try {
             TradeObject beerObject = context.createQuery("from TradeObject trade where trade.id = :id", TradeObject.class).setParameter("id", userId).getSingleResult();
@@ -67,7 +64,6 @@ public class TradesImpl implements UsersUserIdTrades {
     }
 
     @Override
-    @Transactional
     public PutUsersTradesByUserIdAndTradeIdResponse putUsersTradesByUserIdAndTradeId(String userId, String tradeId, Trade entity) {
         try {
             TradeObject tradeObject = context.createQuery("from TradeObject user where user.id = :id", TradeObject.class).setParameter("id", userId).getSingleResult();

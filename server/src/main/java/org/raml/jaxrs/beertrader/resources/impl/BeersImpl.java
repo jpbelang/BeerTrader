@@ -8,6 +8,7 @@ import org.raml.jaxrs.beertrader.model.User;
 import org.raml.jaxrs.beertrader.model.UserImpl;
 import org.raml.jaxrs.beertrader.resources.Users;
 import org.raml.jaxrs.beertrader.resources.UsersUserIdBeers;
+import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -19,13 +20,13 @@ import java.util.stream.Collectors;
 /**
  * Created. There, you have it.
  */
+@Component
 public class BeersImpl implements UsersUserIdBeers {
 
     @Inject
     private EntityManager context;
 
     @Override
-    @Transactional
     public GetUsersBeersByUserIdResponse getUsersBeersByUserId(String userId) {
 
         List<BeerObject> beerObjects = context.createQuery("from BeerObject ", BeerObject.class).getResultList();
@@ -35,7 +36,6 @@ public class BeersImpl implements UsersUserIdBeers {
     }
 
     @Override
-    @Transactional
     public PostUsersBeersByUserIdResponse postUsersBeersByUserId(String userId, Beer entity) {
         BeerObject beerObject = beerToBeerObject(entity, new BeerObject());
         context.persist(beerObject);
@@ -44,7 +44,6 @@ public class BeersImpl implements UsersUserIdBeers {
     }
 
     @Override
-    @Transactional
     public GetUsersBeersByUserIdAndEntryIdResponse getUsersBeersByUserIdAndEntryId(String userId, String entryId) {
         try {
             BeerObject beerObject = context.createQuery("from BeerObject beer where beer.id = :id", BeerObject.class).setParameter("id", userId).getSingleResult();
@@ -56,7 +55,6 @@ public class BeersImpl implements UsersUserIdBeers {
     }
 
     @Override
-    @Transactional
     public DeleteUsersBeersByUserIdAndEntryIdResponse deleteUsersBeersByUserIdAndEntryId(String userId, String entryId) {
         try {
             BeerObject beerObject = context.createQuery("from BeerObject beer where beer.id = :id", BeerObject.class).setParameter("id", userId).getSingleResult();
@@ -69,7 +67,6 @@ public class BeersImpl implements UsersUserIdBeers {
     }
 
     @Override
-    @Transactional
     public PutUsersBeersByUserIdAndEntryIdResponse putUsersBeersByUserIdAndEntryId(String userId, String entryId, Beer entity) {
         try {
             BeerObject beerObject = context.createQuery("from BeerObject user where user.id = :id", BeerObject.class).setParameter("id", userId).getSingleResult();

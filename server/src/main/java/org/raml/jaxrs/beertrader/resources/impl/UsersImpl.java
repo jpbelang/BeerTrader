@@ -1,10 +1,11 @@
 package org.raml.jaxrs.beertrader.resources.impl;
 
-import com.google.inject.persist.Transactional;
 import org.raml.jaxrs.beertrader.data.UserObject;
 import org.raml.jaxrs.beertrader.model.User;
 import org.raml.jaxrs.beertrader.model.UserImpl;
 import org.raml.jaxrs.beertrader.resources.Users;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -15,13 +16,14 @@ import java.util.stream.Collectors;
 /**
  * Created. There, you have it.
  */
+@Component
+@Transactional
 public class UsersImpl implements Users {
 
     @Inject
     private EntityManager context;
 
     @Override
-    @Transactional
     public GetUsersResponse getUsers() {
 
         List<UserObject> dbUsers = context.createQuery("from UserObject ", UserObject.class).getResultList();
@@ -32,7 +34,6 @@ public class UsersImpl implements Users {
 
 
     @Override
-    @Transactional
     public PostUsersResponse postUsers(User entity) {
 
         UserObject uo = userToUserObject(entity, new UserObject());
@@ -42,7 +43,6 @@ public class UsersImpl implements Users {
     }
 
     @Override
-    @Transactional
     public GetUsersByUserIdResponse getUsersByUserId(String userId) {
 
         try {
@@ -55,7 +55,6 @@ public class UsersImpl implements Users {
     }
 
     @Override
-    @Transactional
     public DeleteUsersByUserIdResponse deleteUsersByUserId(String userId) {
 
         try {
@@ -69,7 +68,6 @@ public class UsersImpl implements Users {
     }
 
     @Override
-    @Transactional
     public PutUsersByUserIdResponse putUsersByUserId(String userId, User entity) {
         try {
             UserObject dbUser = context.createQuery("from UserObject user where user.id = :id", UserObject.class).setParameter("id", userId).getSingleResult();
