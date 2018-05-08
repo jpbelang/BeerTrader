@@ -1,6 +1,7 @@
 package org.raml.jaxrs.beertrader.resources;
 
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
+import org.raml.jaxrs.beertrader.Main;
 import org.raml.jaxrs.beertrader.guice.GuiceModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -41,12 +42,10 @@ public class ApplicationConfig extends ResourceConfig {
         SLF4JBridgeHandler.removeHandlersForRootLogger();
         SLF4JBridgeHandler.install();
 
-        // Guice
-        Injector injector = Guice.createInjector(new GuiceModule());
 
         GuiceBridge.getGuiceBridge().initializeGuiceBridge(serviceLocator);
         GuiceIntoHK2Bridge bridge = serviceLocator.getService(GuiceIntoHK2Bridge.class);
-        bridge.bridgeGuiceInjector(injector);
+        bridge.bridgeGuiceInjector(Main.injector);
 
         logger.debug("'{}' initialized", ApplicationConfig.this.getClass().getName());
     }

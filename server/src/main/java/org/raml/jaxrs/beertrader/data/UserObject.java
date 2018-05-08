@@ -13,7 +13,6 @@ import java.util.Map;
 public class UserObject extends PersistentObject {
 
     @Basic
-    private String id;
     private String name;
     private String email;
 

@@ -1,5 +1,6 @@
 package org.raml.jaxrs.beertrader.resources.impl;
 
+import com.google.inject.persist.Transactional;
 import org.raml.jaxrs.beertrader.data.UserObject;
 import org.raml.jaxrs.beertrader.model.User;
 import org.raml.jaxrs.beertrader.model.UserImpl;
@@ -8,7 +9,6 @@ import org.raml.jaxrs.beertrader.resources.Users;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -86,7 +86,6 @@ public class UsersImpl implements Users {
         User user = new UserImpl();
         user.setEmail(db.getEmail());
         user.setName(db.getName());
-        user.setId(db.getId());
 
         return user;
     }

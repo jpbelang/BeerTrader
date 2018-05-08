@@ -36,7 +36,7 @@ public class GuiceModule extends ServletModule {
     @Override
     protected void configureServlets() {
         install(new JpaPersistModule("beer-pu"));  // like we saw earlier.
-        bind(JPAInitializer.class).asEagerSingleton();
-        filter("/*").through(PersistFilter.class);
+        //bind(JPAInitializer.class).asEagerSingleton();
+        filter("/services/*").through(PersistFilter.class);
     }
 }
