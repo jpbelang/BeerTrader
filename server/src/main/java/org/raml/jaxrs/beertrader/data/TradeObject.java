@@ -17,13 +17,20 @@ public class TradeObject extends PersistentObject {
     private UserObject fromUser;
 
     @ManyToOne
+    private BeerObject fromBeer;
+
+    @Basic
+    private int fromCount;
+
+    @ManyToOne
     private UserObject toUser;
 
     @ManyToOne
-    private BeerObject tradedBeer;
+    private BeerObject toBeer;
 
     @Basic
-    private int count;
+    private int toCount;
+
 
     public UserObject getFromUser() {
         return fromUser;
@@ -31,6 +38,22 @@ public class TradeObject extends PersistentObject {
 
     public void setFromUser(UserObject fromUser) {
         this.fromUser = fromUser;
+    }
+
+    public BeerObject getFromBeer() {
+        return fromBeer;
+    }
+
+    public void setFromBeer(BeerObject fromBeer) {
+        this.fromBeer = fromBeer;
+    }
+
+    public int getFromCount() {
+        return fromCount;
+    }
+
+    public void setFromCount(int fromCount) {
+        this.fromCount = fromCount;
     }
 
     public UserObject getToUser() {
@@ -41,20 +64,19 @@ public class TradeObject extends PersistentObject {
         this.toUser = toUser;
     }
 
-    public BeerObject getTradedBeer() {
-        return tradedBeer;
+    public BeerObject getToBeer() {
+        return toBeer;
     }
 
-    public void setTradedBeer(BeerObject tradedBeer) {
-        this.tradedBeer = tradedBeer;
+    public void setToBeer(BeerObject toBeer) {
+        this.toBeer = toBeer;
     }
 
-    public int getCount() {
-        return count;
+    public int getToCount() {
+        return toCount;
     }
 
-    public void setCount(int count) {
-
-        this.count = count;
+    public void setToCount(int toCount) {
+        this.toCount = toCount;
     }
 }

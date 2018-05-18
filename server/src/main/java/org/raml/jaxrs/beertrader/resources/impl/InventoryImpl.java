@@ -93,9 +93,11 @@ public class InventoryImpl implements UsersUserIdInventory {
         return inventoryEntry;
     }
 
-    private static InventoryObject inventoryToInventoryObject(InventoryEntry inventoryEntry, InventoryObject inventoryObject) {
+    private  InventoryObject inventoryToInventoryObject(InventoryEntry inventoryEntry, InventoryObject inventoryObject) {
 
         inventoryObject.setCount(inventoryEntry.getCount());
+        BeerObject beerObject = context.createQuery("from BeerObject beer where beer.id = :id", BeerObject.class).setParameter("id", inventoryEntry.getBeerReference()).getSingleResult();
+        inventoryObject.setBeer(beerObject);
         return inventoryObject;
     }
 

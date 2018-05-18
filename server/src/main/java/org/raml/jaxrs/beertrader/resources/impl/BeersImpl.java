@@ -84,6 +84,8 @@ public class BeersImpl implements UsersUserIdBeers {
         beer.setName(db.getName());
         beer.setDescription(db.getDescription());
         beer.setType(db.getType());
+        beer.setStyle(db.getStyle());
+
 
         return beer;
     }
@@ -92,6 +94,7 @@ public class BeersImpl implements UsersUserIdBeers {
 
         beerObject.setName(restBeer.getName());
         beerObject.setType(restBeer.getType());
+        beerObject.setStyle(restBeer.getStyle());
         beerObject.setDescription(restBeer.getDescription());
         return beerObject;
     }

@@ -9,7 +9,7 @@ mediaType: [ application/json ]
 types:
   BeerType:
     enum: [ALE, STOUT, LAGER, PORTER, MALTS, OTHER]
-  BeerStype:
+  BeerStyle:
     enum:
       - AMBER
       - BLOND
@@ -40,6 +40,7 @@ types:
       name: string
       description: string
       type: BeerType
+      style: BeerStyle
   InventoryEntry:
     properties:
       id: string
@@ -48,10 +49,14 @@ types:
       availableCount: integer
   Trade:
     properties:
-      from: string
-      to: string
-      beer: string
-      count: integer
+      id: string
+      fromUserReference: string
+      fromBeerReference: string
+      fromCount: integer
+      toUserReference: string
+      toBeerReference: string
+      toCount: integer
+
 resourceTypes:
   collection:
     get:

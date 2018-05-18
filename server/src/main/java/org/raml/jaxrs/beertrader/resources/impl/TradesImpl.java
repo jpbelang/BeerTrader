@@ -2,9 +2,11 @@ package org.raml.jaxrs.beertrader.resources.impl;
 
 import org.raml.jaxrs.beertrader.data.BeerObject;
 import org.raml.jaxrs.beertrader.data.TradeObject;
+import org.raml.jaxrs.beertrader.data.UserObject;
 import org.raml.jaxrs.beertrader.model.Beer;
 import org.raml.jaxrs.beertrader.model.Trade;
 import org.raml.jaxrs.beertrader.model.TradeImpl;
+import org.raml.jaxrs.beertrader.model.User;
 import org.raml.jaxrs.beertrader.resources.UsersUserIdTrades;
 import org.springframework.stereotype.Component;
 
@@ -77,15 +79,32 @@ public class TradesImpl implements UsersUserIdTrades {
     }
 
     private static Trade tradeObjectToTrade(TradeObject db) {
-        Trade beer = new TradeImpl();
-        beer.setCount(db.getCount());
+        Trade trade = new TradeImpl();
+        trade.setFromCount(db.getFromCount());
+        trade.setFromUserReference(db.getFromUser().getId());
+        trade.setFromBeerReference(db.getFromBeer().getId());
 
-        return beer;
+        trade.setToCount(db.getFromCount());
+        trade.setToUserReference(db.getFromUser().getId());
+        trade.setToBeerReference(db.getFromBeer().getId());
+        
+        return trade;
     }
 
-    private static TradeObject tradeToTradeObject(Trade trade, TradeObject tradeObject) {
+    private TradeObject tradeToTradeObject(Trade trade, TradeObject tradeObject) {
 
-        tradeObject.setCount(trade.getCount());
+        BeerObject fromBeer = context.createQuery("from BeerObject beer where beer.id = :id", BeerObject.class).setParameter("id", tradeObject.getFromBeer()).getSingleResult();
+        UserObject fromUser = context.createQuery("from UserObject user where user.id = :id", UserObject.class).setParameter("id", tradeObject.getFromUser()).getSingleResult();
+        trade.setFromBeerReference(fromBeer.getDescription());
+        trade.setFromUserReference(fromUser.getId());
+        tradeObject.setFromCount(trade.getFromCount());
+
+        BeerObject toBeer = context.createQuery("from BeerObject beer where beer.id = :id", BeerObject.class).setParameter("id", tradeObject.getToBeer()).getSingleResult();
+        UserObject toUser = context.createQuery("from UserObject user where user.id = :id", UserObject.class).setParameter("id", tradeObject.getToUser()).getSingleResult();
+        trade.setToBeerReference(toBeer.getDescription());
+        trade.setToUserReference(toUser.getId());
+        tradeObject.setToCount(trade.getToCount());
+
         return tradeObject;
     }
 
