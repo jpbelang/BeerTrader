@@ -22,8 +22,12 @@ import java.util.stream.Collectors;
 @Component
 public class InventoryImpl implements UsersUserIdInventory {
 
+    private final EntityManager context;
+
     @Inject
-    private EntityManager context;
+    public InventoryImpl(EntityManager context) {
+        this.context = context;
+    }
 
     @Override
     public GetUsersInventoryByUserIdResponse getUsersInventoryByUserId(String userId) {

@@ -23,8 +23,12 @@ import java.util.stream.Collectors;
 @Component
 public class BeersImpl implements UsersUserIdBeers {
 
+    private final EntityManager context;
+
     @Inject
-    private EntityManager context;
+    public BeersImpl(EntityManager context) {
+        this.context = context;
+    }
 
     @Override
     public GetUsersBeersByUserIdResponse getUsersBeersByUserId(String userId) {

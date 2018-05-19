@@ -3,10 +3,8 @@ package org.raml.jaxrs.beertrader.resources.impl;
 import org.raml.jaxrs.beertrader.data.BeerObject;
 import org.raml.jaxrs.beertrader.data.TradeObject;
 import org.raml.jaxrs.beertrader.data.UserObject;
-import org.raml.jaxrs.beertrader.model.Beer;
 import org.raml.jaxrs.beertrader.model.Trade;
 import org.raml.jaxrs.beertrader.model.TradeImpl;
-import org.raml.jaxrs.beertrader.model.User;
 import org.raml.jaxrs.beertrader.resources.UsersUserIdTrades;
 import org.springframework.stereotype.Component;
 
@@ -22,8 +20,12 @@ import java.util.stream.Collectors;
 @Component
 public class TradesImpl implements UsersUserIdTrades {
 
+    private final EntityManager context;
+
     @Inject
-    private EntityManager context;
+    public TradesImpl(EntityManager context) {
+        this.context = context;
+    }
 
 
     @Override

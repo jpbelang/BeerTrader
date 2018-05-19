@@ -20,8 +20,12 @@ import java.util.stream.Collectors;
 @Transactional
 public class UsersImpl implements Users {
 
+    final private EntityManager context;
+
     @Inject
-    private EntityManager context;
+    public UsersImpl(EntityManager context) {
+        this.context = context;
+    }
 
     @Override
     public GetUsersResponse getUsers() {
