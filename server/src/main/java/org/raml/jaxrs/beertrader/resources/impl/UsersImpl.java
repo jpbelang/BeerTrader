@@ -43,7 +43,7 @@ public class UsersImpl implements Users {
         UserObject uo = userToUserObject(entity, new UserObject());
         context.persist(uo);
 
-        return PostUsersResponse.respond201WithApplicationJson(entity);
+        return PostUsersResponse.respond201WithApplicationJson(userObjectToUser(uo));
     }
 
     @Override
@@ -88,6 +88,7 @@ public class UsersImpl implements Users {
         User user = new UserImpl();
         user.setEmail(db.getEmail());
         user.setName(db.getName());
+        user.setId(db.getId());
 
         return user;
     }

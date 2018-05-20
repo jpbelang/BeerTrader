@@ -32,19 +32,21 @@ types:
       - WHEAT
       - OTHER
 
+  UUID:
+      (ramltopojo.types):
+        plugins:
+          - name: core.changeType
+            arguments: [ java.util.UUID ]
+        type:
+            type: string
+
   Identified:
     (ramltopojo.types):
       plugins:
         - core.makeAbstract
     additionalProperties: false
     properties:
-      id:
-        (ramltopojo.types):
-          plugins:
-            - name: core.changeType
-              arguments: [ java.util.UUID ]
-          type:
-              type: string
+      id: UUID
 
   UserProperties:
     (ramltopojo.types):
@@ -96,13 +98,7 @@ types:
     type: InventoryEntryProperties
     additionalProperties: true
     properties:
-       beerReference:
-          (ramltopojo.types):
-            plugins:
-              - name: core.changeType
-                arguments: [ java.util.UUID ]
-            type:
-                type: string
+       beerReference: UUID
 
   TradeProperties:
     (ramltopojo.types):
@@ -120,37 +116,10 @@ types:
     type: TradeProperties
     additionalProperties: true
     properties:
-      fromUserReference:
-        (ramltopojo.types):
-          plugins:
-            - name: core.changeType
-              arguments: [ java.util.UUID ]
-          type:
-              type: string
-
-      fromBeerReference:
-        (ramltopojo.types):
-          plugins:
-            - name: core.changeType
-              arguments: [ java.util.UUID ]
-          type:
-              type: string
-
-      toUserReference:
-        (ramltopojo.types):
-          plugins:
-            - name: core.changeType
-              arguments: [ java.util.UUID ]
-          type:
-              type: string
-
-      toBeerReference:
-        (ramltopojo.types):
-          plugins:
-            - name: core.changeType
-              arguments: [ java.util.UUID ]
-          type:
-              type: string
+      fromUserReference: UUID
+      fromBeerReference: UUID
+      toUserReference: UUID
+      toBeerReference: UUID
 
 resourceTypes:
   collection:
