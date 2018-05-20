@@ -32,14 +32,27 @@ types:
       - WHEAT
       - OTHER
 
+  Identified:
+    (ramltopojo.types):
+      plugins:
+        - core.makeAbstract
+    additionalProperties: false
+    properties:
+      id:
+        (ramltopojo.types):
+          plugins:
+            - name: core.changeType
+              arguments: [ java.util.UUID ]
+          type:
+              type: string
 
   UserProperties:
     (ramltopojo.types):
       plugins:
         - core.makeAbstract
     additionalProperties: false
+    type: Identified
     properties:
-      id: string
       name: string
       email: string
   User:
@@ -54,8 +67,8 @@ types:
       plugins:
         - core.makeAbstract
     additionalProperties: false
+    type: Identified
     properties:
-      id: string
       name: string
       description: string
       type: BeerType
@@ -72,9 +85,8 @@ types:
       plugins:
         - core.makeAbstract
     additionalProperties: false
+    type: Identified
     properties:
-      id: string
-      beerReference: string
       count: integer
       availableCount: integer
   InventoryEntry:
@@ -83,19 +95,23 @@ types:
         - core.jackson
     type: InventoryEntryProperties
     additionalProperties: true
+    properties:
+       beerReference:
+          (ramltopojo.types):
+            plugins:
+              - name: core.changeType
+                arguments: [ java.util.UUID ]
+            type:
+                type: string
 
   TradeProperties:
     (ramltopojo.types):
       plugins:
         - core.makeAbstract
     additionalProperties: false
+    type: Identified
     properties:
-      id: string
-      fromUserReference: string
-      fromBeerReference: string
       fromCount: integer
-      toUserReference: string
-      toBeerReference: string
       toCount: integer
   Trade:
     (ramltopojo.types):
@@ -103,6 +119,38 @@ types:
         - core.jackson
     type: TradeProperties
     additionalProperties: true
+    properties:
+      fromUserReference:
+        (ramltopojo.types):
+          plugins:
+            - name: core.changeType
+              arguments: [ java.util.UUID ]
+          type:
+              type: string
+
+      fromBeerReference:
+        (ramltopojo.types):
+          plugins:
+            - name: core.changeType
+              arguments: [ java.util.UUID ]
+          type:
+              type: string
+
+      toUserReference:
+        (ramltopojo.types):
+          plugins:
+            - name: core.changeType
+              arguments: [ java.util.UUID ]
+          type:
+              type: string
+
+      toBeerReference:
+        (ramltopojo.types):
+          plugins:
+            - name: core.changeType
+              arguments: [ java.util.UUID ]
+          type:
+              type: string
 
 resourceTypes:
   collection:

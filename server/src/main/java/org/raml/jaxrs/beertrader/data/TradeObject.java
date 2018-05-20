@@ -1,6 +1,7 @@
 package org.raml.jaxrs.beertrader.data;
 
 import org.raml.jaxrs.beertrader.model.Trade;
+import org.raml.jaxrs.beertrader.model.TradeProperties;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
@@ -11,7 +12,7 @@ import java.util.Map;
  * Created. There, you have it.
  */
 @Entity
-public class TradeObject extends PersistentObject {
+public class TradeObject extends PersistentObject implements TradeProperties {
 
     @ManyToOne
     private UserObject fromUser;

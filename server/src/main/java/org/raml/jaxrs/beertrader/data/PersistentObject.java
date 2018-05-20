@@ -22,8 +22,12 @@ public class PersistentObject {
         return Objects.equals(id, that.id);
     }
 
-    public String getId() {
-        return id;
+    public UUID getId() {
+        return UUID.fromString(id);
+    }
+
+    public void setId(UUID id) {
+        this.id = id.toString();
     }
 
     @Override

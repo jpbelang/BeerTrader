@@ -1,6 +1,7 @@
 package org.raml.jaxrs.beertrader.data;
 
 import org.raml.jaxrs.beertrader.model.Beer;
+import org.raml.jaxrs.beertrader.model.BeerProperties;
 import org.raml.jaxrs.beertrader.model.BeerStyle;
 import org.raml.jaxrs.beertrader.model.BeerType;
 
@@ -12,7 +13,7 @@ import java.util.Map;
  * Created. There, you have it.
  */
 @Entity
-public class BeerObject extends PersistentObject {
+public class BeerObject extends PersistentObject implements BeerProperties {
 
     @Basic
     private BeerType type;

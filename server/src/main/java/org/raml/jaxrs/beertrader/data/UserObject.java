@@ -1,6 +1,7 @@
 package org.raml.jaxrs.beertrader.data;
 
 import org.raml.jaxrs.beertrader.model.User;
+import org.raml.jaxrs.beertrader.model.UserProperties;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
@@ -10,7 +11,7 @@ import java.util.Map;
  * Created. There, you have it.
  */
 @Entity
-public class UserObject extends PersistentObject {
+public class UserObject extends PersistentObject implements UserProperties {
 
     @Basic
     private String name;

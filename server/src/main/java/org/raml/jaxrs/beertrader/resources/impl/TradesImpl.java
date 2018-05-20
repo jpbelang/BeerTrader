@@ -97,13 +97,13 @@ public class TradesImpl implements UsersUserIdTrades {
 
         BeerObject fromBeer = context.createQuery("from BeerObject beer where beer.id = :id", BeerObject.class).setParameter("id", tradeObject.getFromBeer()).getSingleResult();
         UserObject fromUser = context.createQuery("from UserObject user where user.id = :id", UserObject.class).setParameter("id", tradeObject.getFromUser()).getSingleResult();
-        trade.setFromBeerReference(fromBeer.getDescription());
+        trade.setFromBeerReference(fromBeer.getId());
         trade.setFromUserReference(fromUser.getId());
         tradeObject.setFromCount(trade.getFromCount());
 
         BeerObject toBeer = context.createQuery("from BeerObject beer where beer.id = :id", BeerObject.class).setParameter("id", tradeObject.getToBeer()).getSingleResult();
         UserObject toUser = context.createQuery("from UserObject user where user.id = :id", UserObject.class).setParameter("id", tradeObject.getToUser()).getSingleResult();
-        trade.setToBeerReference(toBeer.getDescription());
+        trade.setToBeerReference(toBeer.getId());
         trade.setToUserReference(toUser.getId());
         tradeObject.setToCount(trade.getToCount());
 
