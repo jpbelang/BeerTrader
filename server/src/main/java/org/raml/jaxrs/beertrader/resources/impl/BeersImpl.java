@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.transaction.Transactional;
+import javax.ws.rs.WebApplicationException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,7 +36,6 @@ public class BeersImpl implements UsersUserIdBeers {
 
         List<BeerObject> beerObjects = context.createQuery("from BeerObject ", BeerObject.class).getResultList();
         List<Beer> beers = beerObjects.stream().map(BeersImpl::beerObjectToBeer).collect(Collectors.toList());
-
         return GetUsersBeersByUserIdResponse.respond200WithApplicationJson(beers);
     }
 

@@ -43,9 +43,6 @@
                     <resourcePackage>org.raml.jaxrs.beertrader.resources</resourcePackage>
                     <supportPackage>org.raml.jaxrs.beertrader.support</supportPackage>
                     <modelPackage>org.raml.jaxrs.beertrader.model</modelPackage>
-                    <generateTypesWith>
-                        <value>jackson2</value>
-                    </generateTypesWith>
                 </configuration>
             </plugin>
         </plugins>

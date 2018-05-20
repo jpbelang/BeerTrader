@@ -6,6 +6,8 @@ baseUri:
   value: http://www.beertrader.com/services/{version}
 protocols: [  HTTP, HTTPS ]
 mediaType: [ application/json ]
+uses:
+  ramltopojo: ramltopojo.raml
 types:
   BeerType:
     enum: [ALE, STOUT, LAGER, PORTER, MALTS, OTHER]
@@ -29,25 +31,64 @@ types:
       - PILSNER
       - WHEAT
       - OTHER
-  User:
+
+
+  UserProperties:
+    (ramltopojo.types):
+      plugins:
+        - core.makeAbstract
+    additionalProperties: false
     properties:
       id: string
       name: string
       email: string
-  Beer:
+  User:
+    (ramltopojo.types):
+      plugins:
+        - core.jackson
+    additionalProperties: true
+    type: UserProperties
+
+  BeerProperties:
+    (ramltopojo.types):
+      plugins:
+        - core.makeAbstract
+    additionalProperties: false
     properties:
       id: string
       name: string
       description: string
       type: BeerType
       style: BeerStyle
-  InventoryEntry:
+  Beer:
+    (ramltopojo.types):
+      plugins:
+        - core.jackson
+    additionalProperties: true
+    type: BeerProperties
+
+  InventoryEntryProperties:
+    (ramltopojo.types):
+      plugins:
+        - core.makeAbstract
+    additionalProperties: false
     properties:
       id: string
       beerReference: string
       count: integer
       availableCount: integer
-  Trade:
+  InventoryEntry:
+    (ramltopojo.types):
+      plugins:
+        - core.jackson
+    type: InventoryEntryProperties
+    additionalProperties: true
+
+  TradeProperties:
+    (ramltopojo.types):
+      plugins:
+        - core.makeAbstract
+    additionalProperties: false
     properties:
       id: string
       fromUserReference: string
@@ -56,6 +97,12 @@ types:
       toUserReference: string
       toBeerReference: string
       toCount: integer
+  Trade:
+    (ramltopojo.types):
+      plugins:
+        - core.jackson
+    type: TradeProperties
+    additionalProperties: true
 
 resourceTypes:
   collection:
