@@ -78,7 +78,7 @@ public class InventoryImpl extends BaseResource<InventoryObject, InventoryEntry>
     @Override
     public PutUsersInventoryByUserIdAndEntryIdResponse putUsersInventoryByUserIdAndEntryId(String userId, String entryId, InventoryEntry entity) {
         try {
-            InventoryObject inventoryObject = context.createQuery("from InventoryObject user where user.id = :id", InventoryObject.class).setParameter("id", userId).getSingleResult();
+            InventoryObject inventoryObject = context.createQuery("from InventoryObject inventory where inventory.id = :id", InventoryObject.class).setParameter("id", userId).getSingleResult();
             inventoryObject = inventoryToInventoryObject(entity, inventoryObject);
             context.persist(inventoryObject);
             return PutUsersInventoryByUserIdAndEntryIdResponse.respond200();
