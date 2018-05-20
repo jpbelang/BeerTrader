@@ -3,6 +3,7 @@ package org.raml.jaxrs.beertrader.resources.impl;
 import org.raml.jaxrs.beertrader.data.UserObject;
 import org.raml.jaxrs.beertrader.model.User;
 import org.raml.jaxrs.beertrader.model.UserImpl;
+import org.raml.jaxrs.beertrader.model.UserProperties;
 import org.raml.jaxrs.beertrader.resources.Users;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,12 +19,13 @@ import java.util.stream.Collectors;
  */
 @Component
 @Transactional
-public class UsersImpl implements Users {
+public class UsersImpl extends BaseResource<UserObject, User> implements Users {
 
     final private EntityManager context;
 
     @Inject
     public UsersImpl(EntityManager context) {
+        super(UserProperties.class, UserObject::new, UserImpl::new);
         this.context = context;
     }
 
@@ -31,7 +33,7 @@ public class UsersImpl implements Users {
     public GetUsersResponse getUsers() {
 
         List<UserObject> dbUsers = context.createQuery("from UserObject ", UserObject.class).getResultList();
-        List<User> users = dbUsers.stream().map(UsersImpl::userObjectToUser).collect(Collectors.toList());
+        List<User> users = dbUsers.stream().map(this::dbToTransfer).collect(Collectors.toList());
 
         return GetUsersResponse.respond200WithApplicationJson(users);
     }
@@ -40,10 +42,10 @@ public class UsersImpl implements Users {
     @Override
     public PostUsersResponse postUsers(User entity) {
 
-        UserObject uo = userToUserObject(entity, new UserObject());
+        UserObject uo = transferToDB(entity, new UserObject());
         context.persist(uo);
 
-        return PostUsersResponse.respond201WithApplicationJson(userObjectToUser(uo));
+        return PostUsersResponse.respond201WithApplicationJson(dbToTransfer(uo));
     }
 
     @Override
@@ -51,7 +53,7 @@ public class UsersImpl implements Users {
 
         try {
             UserObject dbUser = context.createQuery("from UserObject user where user.id = :id", UserObject.class).setParameter("id", userId).getSingleResult();
-            return GetUsersByUserIdResponse.respond200WithApplicationJson(userObjectToUser(dbUser));
+            return GetUsersByUserIdResponse.respond200WithApplicationJson(dbToTransfer(dbUser));
         } catch (NoResultException e) {
 
             return GetUsersByUserIdResponse.respond404();
@@ -75,7 +77,7 @@ public class UsersImpl implements Users {
     public PutUsersByUserIdResponse putUsersByUserId(String userId, User entity) {
         try {
             UserObject dbUser = context.createQuery("from UserObject user where user.id = :id", UserObject.class).setParameter("id", userId).getSingleResult();
-            dbUser = userToUserObject(entity, dbUser);
+            dbUser = transferToDB(entity, dbUser);;
             context.persist(dbUser);
             return PutUsersByUserIdResponse.respond200();
         } catch (NoResultException e) {
@@ -83,22 +85,4 @@ public class UsersImpl implements Users {
             return PutUsersByUserIdResponse.respond404();
         }
     }
-
-    private static  User userObjectToUser(UserObject db) {
-        User user = new UserImpl();
-        user.setEmail(db.getEmail());
-        user.setName(db.getName());
-        user.setId(db.getId());
-
-        return user;
-    }
-
-    private static UserObject userToUserObject(User restUser, UserObject uo) {
-
-        uo.setEmail(restUser.getEmail());
-        uo.setName(restUser.getName());
-
-        return uo;
-    }
-
 }

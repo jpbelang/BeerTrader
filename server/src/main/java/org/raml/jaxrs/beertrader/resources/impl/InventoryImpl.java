@@ -2,10 +2,7 @@ package org.raml.jaxrs.beertrader.resources.impl;
 
 import org.raml.jaxrs.beertrader.data.BeerObject;
 import org.raml.jaxrs.beertrader.data.InventoryObject;
-import org.raml.jaxrs.beertrader.model.Beer;
-import org.raml.jaxrs.beertrader.model.BeerImpl;
-import org.raml.jaxrs.beertrader.model.InventoryEntry;
-import org.raml.jaxrs.beertrader.model.InventoryEntryImpl;
+import org.raml.jaxrs.beertrader.model.*;
 import org.raml.jaxrs.beertrader.resources.UsersUserIdInventory;
 import org.springframework.stereotype.Component;
 
@@ -20,12 +17,14 @@ import java.util.stream.Collectors;
  * Created. There, you have it.
  */
 @Component
-public class InventoryImpl implements UsersUserIdInventory {
+@Transactional
+public class InventoryImpl extends BaseResource<InventoryObject, InventoryEntry> implements UsersUserIdInventory {
 
     private final EntityManager context;
 
     @Inject
     public InventoryImpl(EntityManager context) {
+        super(InventoryEntryProperties.class, InventoryObject::new, InventoryEntryImpl::new);
         this.context = context;
     }
 
@@ -33,7 +32,7 @@ public class InventoryImpl implements UsersUserIdInventory {
     public GetUsersInventoryByUserIdResponse getUsersInventoryByUserId(String userId) {
 
         List<InventoryObject> inventoryObjects = context.createQuery("from  InventoryObject ", InventoryObject.class).getResultList();
-        List<InventoryEntry> beers = inventoryObjects.stream().map(InventoryImpl::inventoryObjectToInventory).collect(Collectors.toList());
+        List<InventoryEntry> beers = inventoryObjects.stream().map(this::inventoryObjectToInventory).collect(Collectors.toList());
 
         return GetUsersInventoryByUserIdResponse.respond200WithApplicationJson(beers);
     }
@@ -67,7 +66,7 @@ public class InventoryImpl implements UsersUserIdInventory {
     @Override
     public DeleteUsersInventoryByUserIdAndEntryIdResponse deleteUsersInventoryByUserIdAndEntryId(String userId, String entryId) {
         try {
-            InventoryObject inventoryObject = context.createQuery("from InventoryObject beer where beer.id = :id", InventoryObject.class).setParameter("id", userId).getSingleResult();
+            InventoryObject inventoryObject = context.createQuery("from InventoryObject inventory where inventory.id = :id", InventoryObject.class).setParameter("id", userId).getSingleResult();
             context.remove(inventoryObject);
             return DeleteUsersInventoryByUserIdAndEntryIdResponse.respond200();
         } catch (NoResultException e) {
@@ -89,19 +88,20 @@ public class InventoryImpl implements UsersUserIdInventory {
         }
     }
 
-    private static InventoryEntry inventoryObjectToInventory(InventoryObject db) {
-        InventoryEntry inventoryEntry = new InventoryEntryImpl();
+    private  InventoryEntry inventoryObjectToInventory(InventoryObject db) {
+        InventoryEntry inventoryEntry = this.dbToTransfer(db);
         inventoryEntry.setBeerReference(db.getId());
-        inventoryEntry.setAvailableCount(db.getCount());
 
         return inventoryEntry;
     }
 
     private  InventoryObject inventoryToInventoryObject(InventoryEntry inventoryEntry, InventoryObject inventoryObject) {
 
-        inventoryObject.setCount(inventoryEntry.getCount());
+        this.transferToDB(inventoryEntry, inventoryObject);
+
         BeerObject beerObject = context.createQuery("from BeerObject beer where beer.id = :id", BeerObject.class).setParameter("id", inventoryEntry.getBeerReference()).getSingleResult();
         inventoryObject.setBeer(beerObject);
+
         return inventoryObject;
     }
 

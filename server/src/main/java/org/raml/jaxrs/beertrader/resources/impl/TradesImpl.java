@@ -5,8 +5,10 @@ import org.raml.jaxrs.beertrader.data.TradeObject;
 import org.raml.jaxrs.beertrader.data.UserObject;
 import org.raml.jaxrs.beertrader.model.Trade;
 import org.raml.jaxrs.beertrader.model.TradeImpl;
+import org.raml.jaxrs.beertrader.model.TradeProperties;
 import org.raml.jaxrs.beertrader.resources.UsersUserIdTrades;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -18,12 +20,14 @@ import java.util.stream.Collectors;
  * Created. There, you have it.
  */
 @Component
-public class TradesImpl implements UsersUserIdTrades {
+@Transactional
+public class TradesImpl extends BaseResource<TradeObject, Trade> implements UsersUserIdTrades {
 
     private final EntityManager context;
 
     @Inject
     public TradesImpl(EntityManager context) {
+        super(TradeProperties.class, TradeObject::new, TradeImpl::new);
         this.context = context;
     }
 
@@ -31,7 +35,7 @@ public class TradesImpl implements UsersUserIdTrades {
     @Override
     public GetUsersTradesByUserIdResponse getUsersTradesByUserId(String userId) {
         List<TradeObject> tradeObject = context.createQuery("from TradeObject", TradeObject.class).getResultList();
-        List<Trade> beers = tradeObject.stream().map(TradesImpl::tradeObjectToTrade).collect(Collectors.toList());
+        List<Trade> beers = tradeObject.stream().map(this::tradeObjectToTrade).collect(Collectors.toList());
 
         return GetUsersTradesByUserIdResponse.respond200WithApplicationJson(beers);
     }
@@ -70,7 +74,7 @@ public class TradesImpl implements UsersUserIdTrades {
     @Override
     public PutUsersTradesByUserIdAndTradeIdResponse putUsersTradesByUserIdAndTradeId(String userId, String tradeId, Trade entity) {
         try {
-            TradeObject tradeObject = context.createQuery("from TradeObject user where user.id = :id", TradeObject.class).setParameter("id", userId).getSingleResult();
+            TradeObject tradeObject = context.createQuery("from TradeObject trade where trade.id = :id", TradeObject.class).setParameter("id", userId).getSingleResult();
             tradeObject = tradeToTradeObject(entity, tradeObject);
             context.persist(tradeObject);
             return PutUsersTradesByUserIdAndTradeIdResponse.respond200();
@@ -80,13 +84,12 @@ public class TradesImpl implements UsersUserIdTrades {
         }
     }
 
-    private static Trade tradeObjectToTrade(TradeObject db) {
-        Trade trade = new TradeImpl();
-        trade.setFromCount(db.getFromCount());
+    private  Trade tradeObjectToTrade(TradeObject db) {
+        Trade trade = dbToTransfer(db);
+
         trade.setFromUserReference(db.getFromUser().getId());
         trade.setFromBeerReference(db.getFromBeer().getId());
 
-        trade.setToCount(db.getFromCount());
         trade.setToUserReference(db.getFromUser().getId());
         trade.setToBeerReference(db.getFromBeer().getId());
         
@@ -95,17 +98,17 @@ public class TradesImpl implements UsersUserIdTrades {
 
     private TradeObject tradeToTradeObject(Trade trade, TradeObject tradeObject) {
 
+        transferToDB(trade, tradeObject);
+
         BeerObject fromBeer = context.createQuery("from BeerObject beer where beer.id = :id", BeerObject.class).setParameter("id", tradeObject.getFromBeer()).getSingleResult();
         UserObject fromUser = context.createQuery("from UserObject user where user.id = :id", UserObject.class).setParameter("id", tradeObject.getFromUser()).getSingleResult();
         trade.setFromBeerReference(fromBeer.getId());
         trade.setFromUserReference(fromUser.getId());
-        tradeObject.setFromCount(trade.getFromCount());
 
         BeerObject toBeer = context.createQuery("from BeerObject beer where beer.id = :id", BeerObject.class).setParameter("id", tradeObject.getToBeer()).getSingleResult();
         UserObject toUser = context.createQuery("from UserObject user where user.id = :id", UserObject.class).setParameter("id", tradeObject.getToUser()).getSingleResult();
         trade.setToBeerReference(toBeer.getId());
         trade.setToUserReference(toUser.getId());
-        tradeObject.setToCount(trade.getToCount());
 
         return tradeObject;
     }
