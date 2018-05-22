@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
  * Created. There, you have it.
  */
 @Component
+@Transactional
 public class TradesImpl implements UsersUserIdTrades {
 
     private final EntityManager context;

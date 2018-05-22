@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
  * Created. There, you have it.
  */
 @Component
+@Transactional
 public class InventoryImpl implements UsersUserIdInventory {
 
     private final EntityManager context;
@@ -92,7 +93,8 @@ public class InventoryImpl implements UsersUserIdInventory {
     private static InventoryEntry inventoryObjectToInventory(InventoryObject db) {
         InventoryEntry inventoryEntry = new InventoryEntryImpl();
         inventoryEntry.setBeerReference(db.getId());
-        inventoryEntry.setAvailableCount(db.getCount());
+        inventoryEntry.setCount(db.getCount());
+        inventoryEntry.setAvailableCount(db.getAvailableCount());
 
         return inventoryEntry;
     }
@@ -100,6 +102,8 @@ public class InventoryImpl implements UsersUserIdInventory {
     private  InventoryObject inventoryToInventoryObject(InventoryEntry inventoryEntry, InventoryObject inventoryObject) {
 
         inventoryObject.setCount(inventoryEntry.getCount());
+        inventoryObject.setAvailableCount(inventoryEntry.getAvailableCount());
+
         BeerObject beerObject = context.createQuery("from BeerObject beer where beer.id = :id", BeerObject.class).setParameter("id", inventoryEntry.getBeerReference()).getSingleResult();
         inventoryObject.setBeer(beerObject);
         return inventoryObject;

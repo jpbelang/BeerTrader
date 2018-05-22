@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
  * Created. There, you have it.
  */
 @Component
+@Transactional
 public class BeersImpl implements UsersUserIdBeers {
 
     private final EntityManager context;

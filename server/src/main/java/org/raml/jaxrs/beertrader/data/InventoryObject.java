@@ -15,6 +15,7 @@ public class InventoryObject extends PersistentObject {
 
     @Basic
     private int count;
+    private int availableCount;
 
     @OneToOne
     private BeerObject beer;
@@ -34,5 +35,13 @@ public class InventoryObject extends PersistentObject {
 
     public void setBeer(BeerObject beer) {
         this.beer = beer;
+    }
+
+    public int getAvailableCount() {
+        return availableCount;
+    }
+
+    public void setAvailableCount(int availableCount) {
+        this.availableCount = availableCount;
     }
 }
