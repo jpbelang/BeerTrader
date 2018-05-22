@@ -37,8 +37,8 @@ types:
         plugins:
           - name: core.changeType
             arguments: [ java.util.UUID ]
-        type:
-            type: string
+        type: string
+        pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
 
   Identified:
     (ramltopojo.types):
