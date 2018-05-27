@@ -4,11 +4,11 @@ import org.raml.jaxrs.beertrader.data.BeerObject;
 import org.raml.jaxrs.beertrader.model.*;
 import org.raml.jaxrs.beertrader.resources.UsersUserIdBeers;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 

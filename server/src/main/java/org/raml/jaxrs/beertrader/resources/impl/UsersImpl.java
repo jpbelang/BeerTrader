@@ -6,11 +6,13 @@ import org.raml.jaxrs.beertrader.model.UserImpl;
 import org.raml.jaxrs.beertrader.model.UserProperties;
 import org.raml.jaxrs.beertrader.resources.Users;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.transaction.Transactional;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +24,6 @@ import java.util.stream.Collectors;
 public class UsersImpl extends BaseResource<UserObject, User> implements Users {
 
     final private EntityManager context;
-
     @Inject
     public UsersImpl(EntityManager context) {
         super(UserProperties.class, UserObject::new, UserImpl::new);

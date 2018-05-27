@@ -16,6 +16,7 @@ public class InventoryObject extends PersistentObject implements InventoryEntryP
 
     @Basic
     private int count;
+    private int availableCount;
 
     @Basic
     private int availableCount;
@@ -49,5 +50,13 @@ public class InventoryObject extends PersistentObject implements InventoryEntryP
 
     public void setBeer(BeerObject beer) {
         this.beer = beer;
+    }
+
+    public int getAvailableCount() {
+        return availableCount;
+    }
+
+    public void setAvailableCount(int availableCount) {
+        this.availableCount = availableCount;
     }
 }

@@ -6,7 +6,6 @@ import org.raml.jaxrs.beertrader.model.TradeProperties;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import java.util.Map;
 
 /**
  * Created. There, you have it.

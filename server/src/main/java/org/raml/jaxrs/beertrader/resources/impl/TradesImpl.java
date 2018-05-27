@@ -8,11 +8,11 @@ import org.raml.jaxrs.beertrader.model.TradeImpl;
 import org.raml.jaxrs.beertrader.model.TradeProperties;
 import org.raml.jaxrs.beertrader.resources.UsersUserIdTrades;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,7 +45,7 @@ public class TradesImpl extends BaseResource<TradeObject, Trade> implements User
         TradeObject tradeObject = tradeToTradeObject(entity, new TradeObject());
         context.persist(tradeObject);
 
-        return PostUsersTradesByUserIdResponse.respond201WithApplicationJson(entity);
+        return PostUsersTradesByUserIdResponse.respond201WithApplicationJson(entity, PostUsersTradesByUserIdResponse.headersFor201().withLocation("trades/" + tradeObject.getId()));
     }
 
     @Override

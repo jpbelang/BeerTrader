@@ -2,7 +2,8 @@ package org.raml.jaxrs.beertrader.resources.impl;
 
 import org.raml.jaxrs.beertrader.data.BeerObject;
 import org.raml.jaxrs.beertrader.data.InventoryObject;
-import org.raml.jaxrs.beertrader.model.*;
+import org.raml.jaxrs.beertrader.model.InventoryEntry;
+import org.raml.jaxrs.beertrader.model.InventoryEntryImpl;
 import org.raml.jaxrs.beertrader.resources.UsersUserIdInventory;
 import org.springframework.stereotype.Component;
 
@@ -41,15 +42,10 @@ public class InventoryImpl extends BaseResource<InventoryObject, InventoryEntry>
     public PostUsersInventoryByUserIdResponse postUsersInventoryByUserId(String userId, InventoryEntry entity) {
         InventoryObject inventoryObject = inventoryToInventoryObject(entity, new InventoryObject());
 
-        try {
-            BeerObject beerObject = context.createQuery("from InventoryObject b where b.id = :id", BeerObject.class).getSingleResult();
-            entity.setBeerReference(beerObject.getId());
-            context.persist(inventoryObject);
-            return PostUsersInventoryByUserIdResponse.respond201WithApplicationJson(entity);
-        } catch (NoResultException e) {
-
-            return PostUsersInventoryByUserIdResponse.respond201WithApplicationJson(entity);
-        }
+        BeerObject beerObject = context.createQuery("from InventoryObject b where b.id = :id", BeerObject.class).getSingleResult();
+        entity.setBeerReference(beerObject.getId());
+        context.persist(inventoryObject);
+        return PostUsersInventoryByUserIdResponse.respond201WithApplicationJson(entity, PostUsersInventoryByUserIdResponse.headersFor201().withLocation("inventory/" + inventoryObject.getId()));
     }
 
     @Override

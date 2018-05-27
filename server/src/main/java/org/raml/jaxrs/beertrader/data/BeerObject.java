@@ -7,7 +7,6 @@ import org.raml.jaxrs.beertrader.model.BeerType;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
-import java.util.Map;
 
 /**
  * Created. There, you have it.
