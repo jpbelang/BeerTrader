@@ -20,3 +20,5 @@ java -jar server/target/server-1.0-SNAPSHOT.jar
 
 The project is a normal spring boot project.  Running it inside your IDE should not be a problem.  The main class
 is in the `server` submodule and called `org.raml.jaxrs.beertrader.Main`
+
+It will start on port 8080.
