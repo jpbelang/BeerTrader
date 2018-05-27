@@ -10,6 +10,8 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.transaction.Transactional;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,7 +23,6 @@ import java.util.stream.Collectors;
 public class UsersImpl implements Users {
 
     final private EntityManager context;
-
     @Inject
     public UsersImpl(EntityManager context) {
         this.context = context;
@@ -43,7 +44,7 @@ public class UsersImpl implements Users {
         UserObject uo = userToUserObject(entity, new UserObject());
         context.persist(uo);
 
-        return PostUsersResponse.respond201WithApplicationJson(entity);
+        return PostUsersResponse.respond201WithApplicationJson(entity, PostUsersResponse.headersFor201().withLocation("users/" + uo.getId()));
     }
 
     @Override

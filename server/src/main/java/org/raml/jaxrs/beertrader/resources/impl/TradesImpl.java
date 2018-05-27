@@ -43,7 +43,7 @@ public class TradesImpl implements UsersUserIdTrades {
         TradeObject tradeObject = tradeToTradeObject(entity, new TradeObject());
         context.persist(tradeObject);
 
-        return PostUsersTradesByUserIdResponse.respond201WithApplicationJson(entity);
+        return PostUsersTradesByUserIdResponse.respond201WithApplicationJson(entity, PostUsersTradesByUserIdResponse.headersFor201().withLocation("trades/" + tradeObject.getId()));
     }
 
     @Override

@@ -41,7 +41,7 @@ public class BeersImpl implements UsersUserIdBeers {
         BeerObject beerObject = beerToBeerObject(entity, new BeerObject());
         context.persist(beerObject);
 
-        return PostUsersBeersByUserIdResponse.respond201WithApplicationJson(entity);
+        return PostUsersBeersByUserIdResponse.respond201WithApplicationJson(entity, PostUsersBeersByUserIdResponse.headersFor201().withLocation("beers/" +beerObject.getId()));
     }
 
     @Override

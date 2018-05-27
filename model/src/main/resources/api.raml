@@ -69,6 +69,8 @@ resourceTypes:
         application/json: <<targetType>>
       responses:
         201:
+          headers:
+            Location: string
           body:
             application/json: <<targetType>>
   item:
