@@ -46,7 +46,7 @@ public class UsersImpl extends BaseResource<UserObject, User> implements Users {
         UserObject uo = transferToDB(entity, new UserObject());
         context.persist(uo);
 
-        return PostUsersResponse.respond201WithApplicationJson(dbToTransfer(uo));
+        return PostUsersResponse.respond201WithApplicationJson(dbToTransfer(uo), PostUsersResponse.headersFor201().withLocation("users/" + uo.getId()));
     }
 
     @Override

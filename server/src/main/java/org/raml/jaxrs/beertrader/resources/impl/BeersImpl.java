@@ -41,7 +41,7 @@ public class BeersImpl extends BaseResource<BeerObject, Beer> implements UsersUs
         BeerObject beerObject = transferToDB(entity, new BeerObject());
         context.persist(beerObject);
 
-        return PostUsersBeersByUserIdResponse.respond201WithApplicationJson(dbToTransfer(beerObject));
+        return PostUsersBeersByUserIdResponse.respond201WithApplicationJson(dbToTransfer(beerObject), PostUsersBeersByUserIdResponse.headersFor201().withLocation("beers/" + beerObject.getId()));
     }
 
     @Override

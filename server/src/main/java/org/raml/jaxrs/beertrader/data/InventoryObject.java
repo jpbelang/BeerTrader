@@ -18,21 +18,8 @@ public class InventoryObject extends PersistentObject implements InventoryEntryP
     private int count;
     private int availableCount;
 
-    @Basic
-    private int availableCount;
-
     @OneToOne
     private BeerObject beer;
-
-    @Override
-    public int getAvailableCount() {
-        return availableCount;
-    }
-
-    @Override
-    public void setAvailableCount(int count) {
-        this.availableCount = count;
-    }
 
     @Override
     public int getCount() {

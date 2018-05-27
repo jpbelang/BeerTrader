@@ -4,6 +4,7 @@ import org.raml.jaxrs.beertrader.data.BeerObject;
 import org.raml.jaxrs.beertrader.data.InventoryObject;
 import org.raml.jaxrs.beertrader.model.InventoryEntry;
 import org.raml.jaxrs.beertrader.model.InventoryEntryImpl;
+import org.raml.jaxrs.beertrader.model.InventoryEntryProperties;
 import org.raml.jaxrs.beertrader.resources.UsersUserIdInventory;
 import org.springframework.stereotype.Component;
 
