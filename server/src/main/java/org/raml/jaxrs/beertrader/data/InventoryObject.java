@@ -1,8 +1,5 @@
 package org.raml.jaxrs.beertrader.data;
 
-import org.raml.jaxrs.beertrader.model.Beer;
-import org.raml.jaxrs.beertrader.model.BeerType;
-
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;

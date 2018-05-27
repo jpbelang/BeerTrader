@@ -5,11 +5,11 @@ import org.raml.jaxrs.beertrader.model.User;
 import org.raml.jaxrs.beertrader.model.UserImpl;
 import org.raml.jaxrs.beertrader.resources.Users;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 

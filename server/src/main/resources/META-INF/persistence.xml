@@ -8,7 +8,7 @@
             <property name="hibernate.connection.username" value="sa"/>
             <property name="hibernate.connection.password" value=""/>
             <property name="hibernate.connection.driver_class" value="org.hsqldb.jdbc.JDBCDriver"/>
-            <property name="hibernate.connection.url" value="jdbc:hsqldb:mem:aname"/>
+            <property name="hibernate.connection.url" value="jdbc:hsqldb:mem:beer"/>
 
             <property name="hibernate.id.new_generator_mappings" value="true"/>
             <property name="hibernate.hbm2ddl.auto" value="create"/>

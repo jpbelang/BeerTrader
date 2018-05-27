@@ -2,8 +2,6 @@ package org.raml.jaxrs.beertrader.resources.impl;
 
 import org.raml.jaxrs.beertrader.data.BeerObject;
 import org.raml.jaxrs.beertrader.data.InventoryObject;
-import org.raml.jaxrs.beertrader.model.Beer;
-import org.raml.jaxrs.beertrader.model.BeerImpl;
 import org.raml.jaxrs.beertrader.model.InventoryEntry;
 import org.raml.jaxrs.beertrader.model.InventoryEntryImpl;
 import org.raml.jaxrs.beertrader.resources.UsersUserIdInventory;
