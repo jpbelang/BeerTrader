@@ -10,8 +10,14 @@ uses:
   ramltopojo: ramltopojo.raml
 types:
   BeerType:
+    (ramltopojo.types):
+      plugins:
+        - core.jackson
     enum: [ALE, STOUT, LAGER, PORTER, MALTS, OTHER]
   BeerStyle:
+    (ramltopojo.types):
+      plugins:
+        - core.jackson
     enum:
       - AMBER
       - BLOND
